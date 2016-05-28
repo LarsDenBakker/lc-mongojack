@@ -6,7 +6,7 @@
 
     <groupId>com.larscode</groupId>
     <artifactId>lc-mongojack</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
 
     <dependencies>
