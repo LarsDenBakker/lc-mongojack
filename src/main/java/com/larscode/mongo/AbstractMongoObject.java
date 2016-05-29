@@ -2,17 +2,17 @@ package com.larscode.mongo;
 
 import org.bson.types.ObjectId;
 
-public class AbstractMongoObject implements MongoObject {
+public class AbstractMongoObject<K> implements MongoObject<K> {
 
-    private ObjectId id;
+    private K id;
 
     @Override
-    public ObjectId getId() {
+    public K getId() {
         return id;
     }
 
     @Override
-    public void setId(ObjectId id) {
+    public void setId(K id) {
         this.id = id;
     }
 }

@@ -8,16 +8,18 @@ import org.mongojack.JacksonDBCollection;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class MongoRepository<T extends MongoObject> {
+public class MongoRepository<T extends MongoObject<K>, K> {
 
     private final DB mongoDB;
 
     private final Class<T> type;
     private final String collectionName;
-    private final JacksonDBCollection<T, ObjectId> collection;
+    private final JacksonDBCollection<T, K> collection;
+    private final Class<K> idType;
 
-    public MongoRepository(Class<T> type, String collectionName, DB mongoDB) {
+    public MongoRepository(Class<T> type, Class<K> idType, String collectionName, DB mongoDB) {
         this.type = type;
+        this.idType = idType;
         this.collectionName = collectionName;
         this.mongoDB = mongoDB;
         this.collection =  configureCollection();
@@ -31,7 +33,7 @@ public class MongoRepository<T extends MongoObject> {
         return collectionName;
     }
 
-    public JacksonDBCollection<T, ObjectId> getCollection() {
+    public JacksonDBCollection<T, K> getCollection() {
         return collection;
     }
 
@@ -56,7 +58,7 @@ public class MongoRepository<T extends MongoObject> {
         return new IllegalArgumentException("Cannot create instance of MongoObject type: " + type, cause);
     }
 
-    private JacksonDBCollection<T, ObjectId> configureCollection() {
+    private JacksonDBCollection<T, K> configureCollection() {
         return getJacksonDBCollection(getDBCollection());
     }
 
@@ -68,8 +70,8 @@ public class MongoRepository<T extends MongoObject> {
         }
     }
 
-    private JacksonDBCollection<T, ObjectId> getJacksonDBCollection(final DBCollection dbCollection) {
-        return JacksonDBCollection.wrap(dbCollection, type, ObjectId.class);
+    private JacksonDBCollection<T, K> getJacksonDBCollection(final DBCollection dbCollection) {
+        return JacksonDBCollection.wrap(dbCollection, type, idType);
     }
 
 
