@@ -17,12 +17,16 @@ public class MongoRepository<T extends MongoObject<K>, K> {
     private final JacksonDBCollection<T, K> collection;
     private final Class<K> idType;
 
-    public MongoRepository(Class<T> type, Class<K> idType, String collectionName, DB mongoDB) {
+    public MongoRepository(DB mongoDB, Class<T> type, Class<K> idType, String collectionName) {
         this.type = type;
         this.idType = idType;
         this.collectionName = collectionName;
         this.mongoDB = mongoDB;
         this.collection =  configureCollection();
+    }
+
+    public MongoRepository(DB mongoDB, Class<T> type, Class<K> idType) {
+        this(mongoDB, type, idType, type.getSimpleName().toLowerCase());
     }
 
     public Class<T> getType() {
