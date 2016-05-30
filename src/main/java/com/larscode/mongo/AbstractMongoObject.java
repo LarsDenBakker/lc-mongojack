@@ -15,4 +15,9 @@ public class AbstractMongoObject<K> implements MongoObject<K> {
     public void setId(K id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +"id=" + id +'}';
+    }
 }
